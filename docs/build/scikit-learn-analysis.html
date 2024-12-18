@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Question #2 &#8212; scikit-learn-survey  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=27fed22d" />
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://raw.githubusercontent.com/Auslum/scikit_learn_survey/refs/heads/main/scikit-learn-survey-master-dataset.csv&#39;</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+
+<span class="c1">#print(df.head())</span>
+</pre></div>
+</div>
+<section id="question-2">
+<h1>Question #2<a class="headerlink" href="#question-2" title="Link to this heading">¶</a></h1>
+<hr class="docutils" />
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Scikit-learn logo colors (blue and orange)</span>
+<span class="n">scikit_learn_colors</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;#0072B2&quot;</span><span class="p">,</span> <span class="s2">&quot;#FF9900&quot;</span><span class="p">]</span>
+
+<span class="c1"># Generate a color interpolation for the priority levels</span>
+<span class="n">priority_colors</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">mcolors</span><span class="o">.</span><span class="n">to_hex</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">mcolors</span><span class="o">.</span><span class="n">LinearSegmentedColormap</span><span class="o">.</span><span class="n">from_list</span><span class="p">(</span><span class="s2">&quot;ScikitLearn&quot;</span><span class="p">,</span> <span class="n">scikit_learn_colors</span><span class="p">)(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">priority_levels</span><span class="p">)))</span>
+<span class="p">]</span>
+
+<span class="c1"># Filter the columns related to the question</span>
+<span class="n">priority_columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="s2">&quot;PROJECT FUTURE DIRECTION AND PRIORITIES&quot;</span> <span class="ow">in</span> <span class="n">col</span><span class="p">]</span>
+<span class="n">priority_data</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">priority_columns</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+
+<span class="c1"># Rename the categories</span>
+<span class="n">renamed_columns</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;Performance&quot;</span><span class="p">,</span> <span class="s2">&quot;Reliability&quot;</span><span class="p">,</span> <span class="s2">&quot;Packaging&quot;</span><span class="p">,</span> <span class="s2">&quot;New features&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Technical documentation&quot;</span><span class="p">,</span> <span class="s2">&quot;Educational materials&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Website redesign&quot;</span><span class="p">,</span> <span class="s2">&quot;Other&quot;</span>
+<span class="p">]</span>
+<span class="n">priority_data</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">renamed_columns</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Prepare data for a stacked bar chart</span>
+<span class="n">stacked_bar_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="n">category</span><span class="p">:</span> <span class="n">priority_data</span><span class="p">[</span><span class="n">category</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">category</span> <span class="ow">in</span> <span class="n">renamed_columns</span>
+<span class="p">})</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+
+<span class="n">priority_levels</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">level</span><span class="p">)</span> <span class="k">for</span> <span class="n">level</span> <span class="ow">in</span> <span class="n">stacked_bar_data</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+<span class="n">categories</span> <span class="o">=</span> <span class="n">stacked_bar_data</span><span class="o">.</span><span class="n">index</span>
+
+<span class="c1"># Create the stacked bar chart</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">bottoms</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">categories</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">level</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">priority_levels</span><span class="p">,</span> <span class="n">priority_colors</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">categories</span><span class="p">,</span> <span class="n">stacked_bar_data</span><span class="p">[</span><span class="n">level</span><span class="p">],</span> <span class="n">bottom</span><span class="o">=</span><span class="n">bottoms</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Priority </span><span class="si">{</span><span class="n">level</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
+    <span class="n">bottoms</span> <span class="o">+=</span> <span class="n">stacked_bar_data</span><span class="p">[</span><span class="n">level</span><span class="p">]</span>
+
+<span class="c1"># Customize the chart</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;PROJECT FUTURE DIRECTION AND PRIORITIES&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Categories&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Frequency&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
+
+<span class="c1"># Customize the legend with explanations</span>
+<span class="n">priority_labels</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;1 (Lowest Priority)&quot;</span><span class="p">,</span> <span class="s2">&quot;2&quot;</span><span class="p">,</span> <span class="s2">&quot;3&quot;</span><span class="p">,</span> <span class="s2">&quot;4&quot;</span><span class="p">,</span> <span class="s2">&quot;5&quot;</span><span class="p">,</span> <span class="s2">&quot;6&quot;</span><span class="p">,</span> <span class="s2">&quot;7 (Highest Priority)&quot;</span>
+<span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span>
+    <span class="n">labels</span><span class="o">=</span><span class="n">priority_labels</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Level of Priority&quot;</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.05</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper left&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span>
+<span class="p">)</span>
+
+<span class="c1"># Adjust and display the chart</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><img alt="png" src="_images/scikit-learn-analysis_3_0.png" /></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Spider chart</span>
+<span class="c1"># Prepare data for calculation of weighted averages</span>
+<span class="n">stacked_bar_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="n">category</span><span class="p">:</span> <span class="n">priority_data</span><span class="p">[</span><span class="n">category</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">category</span> <span class="ow">in</span> <span class="n">renamed_columns</span>
+<span class="p">})</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+
+<span class="c1"># Calculate weighted averages for each category</span>
+<span class="n">priority_levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">])</span>
+<span class="n">weighted_scores</span> <span class="o">=</span> <span class="p">(</span><span class="n">stacked_bar_data</span> <span class="o">*</span> <span class="n">priority_levels</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">stacked_bar_data</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Verify new data</span>
+<span class="c1"># print(&quot;Weighted averages per category:\n&quot;, weighted_scores)</span>
+
+<span class="c1"># Prepare the spider chart</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="n">weighted_scores</span><span class="o">.</span><span class="n">index</span>
+<span class="n">values</span> <span class="o">=</span> <span class="n">weighted_scores</span><span class="o">.</span><span class="n">values</span>
+<span class="n">num_vars</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+
+<span class="c1"># Ensure that the graph is closed (the first value is repeated at the end)</span>
+<span class="n">angles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">num_vars</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">values</span><span class="p">,</span> <span class="p">[</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]]))</span>
+<span class="n">angles</span> <span class="o">+=</span> <span class="n">angles</span><span class="p">[:</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="c1"># Create the spider chart</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">subplot_kw</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">polar</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">angles</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">angles</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># Adjust the tags</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">angles</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;PROJECT FUTURE DIRECTION AND PRIORITIES&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+<span class="c1"># Show the chart</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><img alt="png" src="_images/scikit-learn-analysis_4_0.png" /></p>
+</section>
+<section id="question-5">
+<h1>Question #5<a class="headerlink" href="#question-5" title="Link to this heading">¶</a></h1>
+<hr class="docutils" />
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Scikit-learn logo colors (blue and orange)</span>
+<span class="n">scikit_learn_colors</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;#0072B2&quot;</span><span class="p">,</span> <span class="s2">&quot;#FF9900&quot;</span><span class="p">]</span>
+
+<span class="c1"># Generate a color interpolation for the priority levels</span>
+<span class="n">priority_colors</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">mcolors</span><span class="o">.</span><span class="n">to_hex</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">mcolors</span><span class="o">.</span><span class="n">LinearSegmentedColormap</span><span class="o">.</span><span class="n">from_list</span><span class="p">(</span><span class="s2">&quot;ScikitLearn&quot;</span><span class="p">,</span> <span class="n">scikit_learn_colors</span><span class="p">)(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">priority_levels</span><span class="p">)))</span>
+<span class="p">]</span>
+
+<span class="c1"># Identify the columns related to the question about priorities for ML tasks</span>
+<span class="n">ml_task_columns</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span>
+    <span class="k">if</span> <span class="s2">&quot;Please order the following ML tasks in order of priority to you&quot;</span> <span class="ow">in</span> <span class="n">col</span>
+<span class="p">]</span>
+
+<span class="c1"># Filter relevant data</span>
+<span class="n">ml_task_data</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">ml_task_columns</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+
+<span class="c1"># Rename columns</span>
+<span class="n">renamed_ml_task_columns</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;Regression&quot;</span><span class="p">,</span> <span class="s2">&quot;Classification&quot;</span><span class="p">,</span> <span class="s2">&quot;Forecasting&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Outlier/anomaly detection&quot;</span><span class="p">,</span> <span class="s2">&quot;Dimensionality reduction&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Clustering&quot;</span><span class="p">,</span> <span class="s2">&quot;Other&quot;</span>
+<span class="p">]</span>
+<span class="n">ml_task_data</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">renamed_ml_task_columns</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Stacked bar chart</span>
+<span class="c1"># Reindex with available priority levels (1 to 7)</span>
+<span class="n">priority_levels</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
+
+<span class="c1"># Prepare data for the stacked bar chart</span>
+<span class="n">stacked_bar_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="n">category</span><span class="p">:</span> <span class="n">ml_task_data</span><span class="p">[</span><span class="n">category</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">priority_levels</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">category</span> <span class="ow">in</span> <span class="n">ml_task_data</span><span class="o">.</span><span class="n">columns</span>
+<span class="p">})</span><span class="o">.</span><span class="n">T</span>
+
+<span class="c1"># Create the stacked bar chart</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">bottoms</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">stacked_bar_data</span><span class="p">))</span>
+
+<span class="c1"># Loop through priority levels and apply custom colors</span>
+<span class="k">for</span> <span class="n">level</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">priority_levels</span><span class="p">,</span> <span class="n">priority_colors</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">stacked_bar_data</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">stacked_bar_data</span><span class="p">[</span><span class="n">level</span><span class="p">],</span> <span class="n">bottom</span><span class="o">=</span><span class="n">bottoms</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Priority </span><span class="si">{</span><span class="n">level</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
+    <span class="n">bottoms</span> <span class="o">+=</span> <span class="n">stacked_bar_data</span><span class="p">[</span><span class="n">level</span><span class="p">]</span>
+
+<span class="c1"># Customize the chart</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;ML Tasks: Priority Levels&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Categories&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Number of Responses&quot;</span><span class="p">)</span>
+
+<span class="n">priority_labels</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;1 (Lowest Priority)&quot;</span><span class="p">,</span> <span class="s2">&quot;2&quot;</span><span class="p">,</span> <span class="s2">&quot;3&quot;</span><span class="p">,</span> <span class="s2">&quot;4&quot;</span><span class="p">,</span> <span class="s2">&quot;5&quot;</span><span class="p">,</span> <span class="s2">&quot;6&quot;</span><span class="p">,</span> <span class="s2">&quot;7 (Highest Priority)&quot;</span>
+<span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span>
+    <span class="n">labels</span><span class="o">=</span><span class="n">priority_labels</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Priority Level&quot;</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.05</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper left&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span>
+<span class="p">)</span>
+
+<span class="c1"># Rotate category labels and adjust layout</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><img alt="png" src="_images/scikit-learn-analysis_7_0.png" /></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Spider chart</span>
+
+<span class="c1"># Count the responses of each priority level for each category</span>
+<span class="n">priority_levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">])</span>
+<span class="n">stacked_bar_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="n">category</span><span class="p">:</span> <span class="n">ml_task_data</span><span class="p">[</span><span class="n">category</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">category</span> <span class="ow">in</span> <span class="n">renamed_ml_task_columns</span>
+<span class="p">})</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+
+<span class="c1"># Calculate weighted averages for each category</span>
+<span class="n">weighted_scores</span> <span class="o">=</span> <span class="p">(</span><span class="n">stacked_bar_data</span> <span class="o">*</span> <span class="n">priority_levels</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">stacked_bar_data</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Verify weighted averages</span>
+<span class="c1">#print(&quot;Weighted averages per category:\n&quot;, weighted_scores)</span>
+
+<span class="c1"># Prepare data for the spider chart</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="n">weighted_scores</span><span class="o">.</span><span class="n">index</span>
+<span class="n">values</span> <span class="o">=</span> <span class="n">weighted_scores</span><span class="o">.</span><span class="n">values</span>
+<span class="n">num_vars</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+
+<span class="c1"># Make sure the chart closes (first value repeats at the end)</span>
+<span class="n">angles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">num_vars</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">values</span><span class="p">,</span> <span class="p">[</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]]))</span>
+<span class="n">angles</span> <span class="o">+=</span> <span class="n">angles</span><span class="p">[:</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="c1"># Create the spider chart</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">subplot_kw</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">polar</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">angles</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">angles</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;darkorange&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># Adjust the tags and the title</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">angles</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;ML Tasks: Priority Levels&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+<span class="c1"># Show the chart</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><img alt="png" src="_images/scikit-learn-analysis_8_0.png" /></p>
+</section>
+<section id="question-6">
+<h1>Question #6<a class="headerlink" href="#question-6" title="Link to this heading">¶</a></h1>
+<hr class="docutils" />
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plot_response_counts2</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">column_name</span><span class="p">,</span> <span class="n">mapping_dict</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">y_ax_name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    General function to plot response counts for survey questions with multiple answers.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    df (DataFrame): The survey data.</span>
+<span class="sd">    column_name (str): The column name containing the responses.</span>
+<span class="sd">    mapping_dict (dict): Dictionary mapping responses in various languages to English categories.</span>
+<span class="sd">    title (str): The title for the graph.</span>
+<span class="sd">    color (str): The color of the bars.</span>
+<span class="sd">    y_ax_name (str): Label for the y-axis.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Function to normalize responses using the mapping dictionary</span>
+    <span class="k">def</span> <span class="nf">normalize_responses</span><span class="p">(</span><span class="n">response</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="c1"># Split the responses by comma, strip extra spaces, and map to English categories</span>
+            <span class="n">response_split</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)]</span>
+            <span class="n">normalized</span> <span class="o">=</span> <span class="p">[</span><span class="n">mapping_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">response_split</span><span class="p">]</span>
+            <span class="c1"># Filter out None values (unmapped responses)</span>
+            <span class="k">return</span> <span class="p">[</span><span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">normalized</span> <span class="k">if</span> <span class="n">r</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">]</span>
+        <span class="k">return</span> <span class="p">[]</span>
+
+    <span class="c1"># Apply the normalization to the responses</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Normalized_Responses&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">column_name</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">normalize_responses</span><span class="p">)</span>
+
+    <span class="c1"># Flatten the normalized response lists</span>
+    <span class="n">all_responses</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">sublist</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Normalized_Responses&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">sublist</span><span class="p">]</span>
+
+    <span class="c1"># Count the answers and show the number of times each option is chosen</span>
+    <span class="n">response_counts</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">all_responses</span><span class="p">)</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+
+    <span class="c1"># Sort the responses from largest to smallest</span>
+    <span class="n">response_counts</span> <span class="o">=</span> <span class="n">response_counts</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Create the horizontal bar chart</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">response_counts</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;barh&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
+
+    <span class="c1"># Add data tags</span>
+    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">response_counts</span><span class="p">):</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">value</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;regular&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Title and labels</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Number of Responses&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">y_ax_name</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+
+    <span class="c1"># Adjust and show the chart</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mapping_dict</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c1"># Confusion matrix responses</span>
+    <span class="s2">&quot;Confusion matrix&quot;</span><span class="p">:</span> <span class="s2">&quot;Confusion matrix&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Matriz de confusão&quot;</span><span class="p">:</span> <span class="s2">&quot;Confusion matrix&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Matriz de confusión&quot;</span><span class="p">:</span> <span class="s2">&quot;Confusion matrix&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;混淆矩阵&quot;</span><span class="p">:</span> <span class="s2">&quot;Confusion matrix&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Matrice de confusion&quot;</span><span class="p">:</span> <span class="s2">&quot;Confusion matrix&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;مصفوفة الدقة&quot;</span><span class="p">:</span> <span class="s2">&quot;Confusion matrix&quot;</span><span class="p">,</span>
+    <span class="c1"># Reliability diagram responses</span>
+    <span class="s2">&quot;Reliability diagram&quot;</span><span class="p">:</span> <span class="s2">&quot;Reliability diagram&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Diagrama de confiabilidade&quot;</span><span class="p">:</span> <span class="s2">&quot;Reliability diagram&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Diagrama de confiabilidad&quot;</span><span class="p">:</span> <span class="s2">&quot;Reliability diagram&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;可靠性图&quot;</span><span class="p">:</span> <span class="s2">&quot;Reliability diagram&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Diagramme de fiabilité&quot;</span><span class="p">:</span> <span class="s2">&quot;Reliability diagram&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;مخطط الموثوقية&quot;</span><span class="p">:</span> <span class="s2">&quot;Reliability diagram&quot;</span><span class="p">,</span>
+    <span class="c1"># ROC curve responses</span>
+    <span class="s2">&quot;ROC curve&quot;</span><span class="p">:</span> <span class="s2">&quot;ROC curve&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Curva ROC&quot;</span><span class="p">:</span> <span class="s2">&quot;ROC curve&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ROC曲线&quot;</span><span class="p">:</span> <span class="s2">&quot;ROC curve&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Courbe ROC&quot;</span><span class="p">:</span> <span class="s2">&quot;ROC curve&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;منحنى ROC&quot;</span><span class="p">:</span> <span class="s2">&quot;ROC curve&quot;</span><span class="p">,</span>
+    <span class="c1"># Precision-Recall curve responses</span>
+    <span class="s2">&quot;Precision-Recall curve&quot;</span><span class="p">:</span> <span class="s2">&quot;Precision-Recall curve&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Curva de Precisão-Recall&quot;</span><span class="p">:</span> <span class="s2">&quot;Precision-Recall curve&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Curva de Precisión-Recall&quot;</span><span class="p">:</span> <span class="s2">&quot;Precision-Recall curve&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;PR曲线（精确率-召回率曲线）&quot;</span><span class="p">:</span> <span class="s2">&quot;Precision-Recall curve&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Courbe Précision-Rappel&quot;</span><span class="p">:</span> <span class="s2">&quot;Precision-Recall curve&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;منحنى الدقة-الاسترجاع&quot;</span><span class="p">:</span> <span class="s2">&quot;Precision-Recall curve&quot;</span><span class="p">,</span>
+    <span class="c1"># Feature importance responses</span>
+    <span class="s2">&quot;Feature importance&quot;</span><span class="p">:</span> <span class="s2">&quot;Feature importance&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Importância das características&quot;</span><span class="p">:</span> <span class="s2">&quot;Feature importance&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Importancia de variables&quot;</span><span class="p">:</span> <span class="s2">&quot;Feature importance&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;特征重要性&quot;</span><span class="p">:</span> <span class="s2">&quot;Feature importance&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Importance des caractéristiques (features)&quot;</span><span class="p">:</span> <span class="s2">&quot;Feature importance&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;الأهمية النسبية للخواص&quot;</span><span class="p">:</span> <span class="s2">&quot;Feature importance&quot;</span><span class="p">,</span>
+    <span class="c1"># Residual plots responses</span>
+    <span class="s2">&quot;Residual plots&quot;</span><span class="p">:</span> <span class="s2">&quot;Residual plots&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Gráficos de resíduos&quot;</span><span class="p">:</span> <span class="s2">&quot;Residual plots&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Gráficos de residuos&quot;</span><span class="p">:</span> <span class="s2">&quot;Residual plots&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;残差图&quot;</span><span class="p">:</span> <span class="s2">&quot;Residual plots&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Graphiques des résidus&quot;</span><span class="p">:</span> <span class="s2">&quot;Residual plots&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;مخططات البواقي&quot;</span><span class="p">:</span> <span class="s2">&quot;Residual plots&quot;</span><span class="p">,</span>
+    <span class="c1"># Learning curves responses</span>
+    <span class="s2">&quot;Learning curves&quot;</span><span class="p">:</span> <span class="s2">&quot;Learning curves&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Curvas de aprendizagem&quot;</span><span class="p">:</span> <span class="s2">&quot;Learning curves&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Curvas de aprendizaje&quot;</span><span class="p">:</span> <span class="s2">&quot;Learning curves&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;学习曲线&quot;</span><span class="p">:</span> <span class="s2">&quot;Learning curves&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Courbes d&#39;apprentissage&quot;</span><span class="p">:</span> <span class="s2">&quot;Learning curves&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;منحنيات التعلم&quot;</span><span class="p">:</span> <span class="s2">&quot;Learning curves&quot;</span><span class="p">,</span>
+    <span class="c1"># Other responses</span>
+    <span class="s2">&quot;Other&quot;</span><span class="p">:</span> <span class="s2">&quot;Other&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Outro&quot;</span><span class="p">:</span> <span class="s2">&quot;Other&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Otro&quot;</span><span class="p">:</span> <span class="s2">&quot;Other&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;其它&quot;</span><span class="p">:</span> <span class="s2">&quot;Other&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Autre&quot;</span><span class="p">:</span> <span class="s2">&quot;Other&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;أخرى&quot;</span><span class="p">:</span> <span class="s2">&quot;Other&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plot_response_counts2</span><span class="p">(</span>
+    <span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="p">,</span>
+    <span class="n">column_name</span><span class="o">=</span><span class="s1">&#39;What visualizations do you use to evaluate your models? Select all that apply.&#39;</span><span class="p">,</span>
+    <span class="n">mapping_dict</span><span class="o">=</span><span class="n">mapping_dict</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Visualizations used to evaluate models&#39;</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span>
+    <span class="n">y_ax_name</span><span class="o">=</span><span class="s1">&#39;Visualizations&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><img alt="png" src="_images/scikit-learn-analysis_12_0.png" /></p>
+</section>
+<section id="question-7">
+<h1>Question #7<a class="headerlink" href="#question-7" title="Link to this heading">¶</a></h1>
+<hr class="docutils" />
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mapping_dict</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c1"># cudf responses</span>
+    <span class="s2">&quot;cudf&quot;</span><span class="p">:</span> <span class="s2">&quot;cudf&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;cuDF كووديف&quot;</span><span class="p">:</span> <span class="s2">&quot;cudf&quot;</span><span class="p">,</span>
+    <span class="c1"># Dask DataFrame responses</span>
+    <span class="s2">&quot;Dask DataFrame&quot;</span><span class="p">:</span> <span class="s2">&quot;Dask DataFrame&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Dask 数据框&quot;</span><span class="p">:</span> <span class="s2">&quot;Dask DataFrame&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Dask DataFrame  اطر بيانات داسك&quot;</span><span class="p">:</span> <span class="s2">&quot;Dask DataFrame&quot;</span><span class="p">,</span>
+    <span class="c1"># DuckDB responses</span>
+    <span class="s2">&quot;DuckDB&quot;</span><span class="p">:</span> <span class="s2">&quot;DuckDB&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;DuckDB دك دي بي&quot;</span><span class="p">:</span> <span class="s2">&quot;DuckDB&quot;</span><span class="p">,</span>
+    <span class="c1"># Modin responses</span>
+    <span class="s2">&quot;Modin&quot;</span><span class="p">:</span> <span class="s2">&quot;Modin&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Modin مودين&quot;</span><span class="p">:</span> <span class="s2">&quot;Modin&quot;</span><span class="p">,</span>
+    <span class="c1"># pandas responses</span>
+    <span class="s2">&quot;pandas&quot;</span><span class="p">:</span> <span class="s2">&quot;pandas&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Pandas&quot;</span><span class="p">:</span> <span class="s2">&quot;pandas&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;pandas بنداز&quot;</span><span class="p">:</span> <span class="s2">&quot;pandas&quot;</span><span class="p">,</span>
+    <span class="c1"># Polars responses</span>
+    <span class="s2">&quot;Polars&quot;</span><span class="p">:</span> <span class="s2">&quot;Polars&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Polars بولارز&quot;</span><span class="p">:</span> <span class="s2">&quot;Polars&quot;</span><span class="p">,</span>
+    <span class="c1"># Spark DataFrame responses</span>
+    <span class="s2">&quot;Spark DataFrame&quot;</span><span class="p">:</span> <span class="s2">&quot;Spark DataFrame&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Spark 数据框&quot;</span><span class="p">:</span> <span class="s2">&quot;Spark DataFrame&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Spark DataFrame اطر بيانات سبارك&quot;</span><span class="p">:</span> <span class="s2">&quot;Spark DataFrame&quot;</span><span class="p">,</span>
+    <span class="c1"># Other responses</span>
+    <span class="s2">&quot;Other&quot;</span><span class="p">:</span> <span class="s2">&quot;Other&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Outro&quot;</span><span class="p">:</span> <span class="s2">&quot;Other&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Otro&quot;</span><span class="p">:</span> <span class="s2">&quot;Other&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;其它&quot;</span><span class="p">:</span> <span class="s2">&quot;Other&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Autre&quot;</span><span class="p">:</span> <span class="s2">&quot;Other&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;أخرى&quot;</span><span class="p">:</span> <span class="s2">&quot;Other&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plot_response_counts2</span><span class="p">(</span>
+    <span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="p">,</span>
+    <span class="n">column_name</span><span class="o">=</span><span class="s1">&#39;Which DataFrame libraries do you use? Select all that apply.&#39;</span><span class="p">,</span>
+    <span class="n">mapping_dict</span><span class="o">=</span><span class="n">mapping_dict</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s1">&#39;DataFrame libraries used&#39;</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span>
+    <span class="n">y_ax_name</span><span class="o">=</span><span class="s1">&#39;Libraries&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><img alt="png" src="_images/scikit-learn-analysis_15_0.png" /></p>
+</section>
+<section id="question-9">
+<h1>Question #9<a class="headerlink" href="#question-9" title="Link to this heading">¶</a></h1>
+<hr class="docutils" />
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mapping_dict</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c1"># CatBoost responses</span>
+    <span class="s2">&quot;CatBoost&quot;</span><span class="p">:</span> <span class="s2">&quot;CatBoost&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;CatBoost كات بوست&quot;</span><span class="p">:</span> <span class="s2">&quot;CatBoost&quot;</span><span class="p">,</span>
+    <span class="c1"># Jax responses</span>
+    <span class="s2">&quot;Jax&quot;</span><span class="p">:</span> <span class="s2">&quot;Jax&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;JAX چاكس&quot;</span><span class="p">:</span> <span class="s2">&quot;Jax&quot;</span><span class="p">,</span>
+    <span class="c1"># Keras responses</span>
+    <span class="s2">&quot;Keras&quot;</span><span class="p">:</span> <span class="s2">&quot;Keras&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Keras كيراس&quot;</span><span class="p">:</span> <span class="s2">&quot;Keras&quot;</span><span class="p">,</span>
+    <span class="c1"># LightGBM responses</span>
+    <span class="s2">&quot;LightGBM&quot;</span><span class="p">:</span> <span class="s2">&quot;LightGBM&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;LightGBM لايت جي بي ام&quot;</span><span class="p">:</span> <span class="s2">&quot;LightGBM&quot;</span><span class="p">,</span>
+    <span class="c1"># PyTorch responses</span>
+    <span class="s2">&quot;PyTorch&quot;</span><span class="p">:</span> <span class="s2">&quot;PyTorch&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;PyTorch باي تورش&quot;</span><span class="p">:</span> <span class="s2">&quot;PyTorch&quot;</span><span class="p">,</span>
+    <span class="c1"># Transformers responses</span>
+    <span class="s2">&quot;Transformers&quot;</span><span class="p">:</span> <span class="s2">&quot;Transformers&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Transformers المحولات (ترانسفورمرز)&quot;</span><span class="p">:</span> <span class="s2">&quot;Transformers&quot;</span><span class="p">,</span>
+    <span class="c1"># XGBoost responses</span>
+    <span class="s2">&quot;XGBoost&quot;</span><span class="p">:</span> <span class="s2">&quot;XGBoost&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;XGBoost اكس جي بوست&quot;</span><span class="p">:</span> <span class="s2">&quot;XGBoost&quot;</span><span class="p">,</span>
+    <span class="c1"># Other responses</span>
+    <span class="s2">&quot;Other&quot;</span><span class="p">:</span> <span class="s2">&quot;Other&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Outro&quot;</span><span class="p">:</span> <span class="s2">&quot;Other&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Otro&quot;</span><span class="p">:</span> <span class="s2">&quot;Other&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;其它&quot;</span><span class="p">:</span> <span class="s2">&quot;Other&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Autre&quot;</span><span class="p">:</span> <span class="s2">&quot;Other&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;أخرى&quot;</span><span class="p">:</span> <span class="s2">&quot;Other&quot;</span>
+<span class="p">}</span>
+
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plot_response_counts2</span><span class="p">(</span>
+    <span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="p">,</span>
+    <span class="n">column_name</span><span class="o">=</span><span class="s1">&#39;Which other Machine Learning libraries do you use? Select all that apply.&#39;</span><span class="p">,</span>
+    <span class="n">mapping_dict</span><span class="o">=</span><span class="n">mapping_dict</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Machine Learning libraries used&#39;</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">,</span>
+    <span class="n">y_ax_name</span><span class="o">=</span><span class="s1">&#39;Libraries&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><img alt="png" src="_images/scikit-learn-analysis_18_0.png" /></p>
+</section>
+<section id="question-10">
+<h1>Question #10<a class="headerlink" href="#question-10" title="Link to this heading">¶</a></h1>
+<hr class="docutils" />
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mapping_dict</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c1"># LogisticRegression responses</span>
+    <span class="s2">&quot;LogisticRegression&quot;</span><span class="p">:</span> <span class="s2">&quot;LogisticRegression&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;RandomForestClassifier أو RandomForestRegressorLogisticRegression الانحدار اللوجستي&quot;</span><span class="p">:</span> <span class="s2">&quot;LogisticRegression&quot;</span><span class="p">,</span>
+    <span class="c1"># RandomForestClassifier or RandomForestRegressor responses</span>
+    <span class="s2">&quot;RandomForestClassifier or RandomForestRegressor&quot;</span><span class="p">:</span> <span class="s2">&quot;RandomForestClassifier or RandomForestRegressor&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;RandomForestClassifier ou RandomForestRegressor&quot;</span><span class="p">:</span> <span class="s2">&quot;RandomForestClassifier or RandomForestRegressor&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;RandomForestClassifier o RandomForestRegressor&quot;</span><span class="p">:</span> <span class="s2">&quot;RandomForestClassifier or RandomForestRegressor&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;RandomForestClassifier 或 RandomForestRegressor&quot;</span><span class="p">:</span> <span class="s2">&quot;RandomForestClassifier or RandomForestRegressor&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;مصنف الغابة العشوائية أو انحدار الغابة العشوائية&quot;</span><span class="p">:</span> <span class="s2">&quot;RandomForestClassifier or RandomForestRegressor&quot;</span><span class="p">,</span>
+    <span class="c1"># HistGradientBoostingRegressor or HistGradientBoostingClassifier responses</span>
+    <span class="s2">&quot;HistGradientBoostingRegressor or HistGradientBoostingClassifier&quot;</span><span class="p">:</span> <span class="s2">&quot;HistGradientBoostingRegressor or HistGradientBoostingClassifier&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;HistGradientBoostingRegressor ou HistGradientBoostingClassifier&quot;</span><span class="p">:</span> <span class="s2">&quot;HistGradientBoostingRegressor or HistGradientBoostingClassifier&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;HistGradientBoostingRegressor o HistGradientBoostingClassifier&quot;</span><span class="p">:</span> <span class="s2">&quot;HistGradientBoostingRegressor or HistGradientBoostingClassifier&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;HistGradientBoostingRegressor 或 HistGradientBoostingClassifier&quot;</span><span class="p">:</span> <span class="s2">&quot;HistGradientBoostingRegressor or HistGradientBoostingClassifier&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;HistGradientBoostingRegressorأو HistGradientBoostingClassifier  مصنف الانحدار المدعم بتحليل التردد أو شجرة الانحدار المدعمة بتحليل التردد&lt;/li&gt;&quot;</span><span class="p">:</span> <span class="s2">&quot;HistGradientBoostingRegressor or HistGradientBoostingClassifier&quot;</span><span class="p">,</span>
+    <span class="c1"># Pipeline responses</span>
+    <span class="s2">&quot;Pipeline&quot;</span><span class="p">:</span> <span class="s2">&quot;Pipeline&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Pipeline الوصلات \ خطوط الأنابيب&quot;</span><span class="p">:</span> <span class="s2">&quot;Pipeline&quot;</span><span class="p">,</span>
+    <span class="c1"># ColumnTransformer responses</span>
+    <span class="s2">&quot;ColumnTransformer&quot;</span><span class="p">:</span> <span class="s2">&quot;ColumnTransformer&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ColumnTransforme محولات الاعمدة&quot;</span><span class="p">:</span> <span class="s2">&quot;ColumnTransformer&quot;</span><span class="p">,</span>
+    <span class="c1"># Other responses</span>
+    <span class="s2">&quot;Other&quot;</span><span class="p">:</span> <span class="s2">&quot;Other&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Outro&quot;</span><span class="p">:</span> <span class="s2">&quot;Other&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Otro&quot;</span><span class="p">:</span> <span class="s2">&quot;Other&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;其它&quot;</span><span class="p">:</span> <span class="s2">&quot;Other&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Autre&quot;</span><span class="p">:</span> <span class="s2">&quot;Other&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;أخرى&quot;</span><span class="p">:</span> <span class="s2">&quot;Other&quot;</span>
+<span class="p">}</span>
+
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plot_response_counts2</span><span class="p">(</span>
+    <span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="p">,</span>
+    <span class="n">column_name</span><span class="o">=</span><span class="s1">&#39;Which estimators do you regularly use? Select all that apply.&#39;</span><span class="p">,</span>
+    <span class="n">mapping_dict</span><span class="o">=</span><span class="n">mapping_dict</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Estimators Regularly Used&#39;</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s1">&#39;purple&#39;</span><span class="p">,</span>
+    <span class="n">y_ax_name</span><span class="o">=</span><span class="s1">&#39;Estimators&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><img alt="png" src="_images/scikit-learn-analysis_21_0.png" /></p>
+</section>
+<section id="question-11">
+<h1>Question #11<a class="headerlink" href="#question-11" title="Link to this heading">¶</a></h1>
+<hr class="docutils" />
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<span class="c1"># Define the relevant question</span>
+<span class="n">question_column</span> <span class="o">=</span> <span class="s2">&quot;What ML features are important for your use case? Select all that apply.&quot;</span>
+
+<span class="c1"># Check if the column exists in the dataset</span>
+<span class="k">if</span> <span class="n">question_column</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="c1"># Count occurrences of each response</span>
+    <span class="n">response_counts</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">question_column</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+
+    <span class="c1"># Sort responses in the desired order</span>
+    <span class="n">response_order</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;Calibration of probabilistic classifiers&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Calibration of regressors&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Uncertainty estimates for prediction&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Cost-sensitive learning&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Feature importances&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Sample weights&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Metadata routing&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Non-euclidean metrics&quot;</span>
+    <span class="p">]</span>
+    <span class="n">response_counts</span> <span class="o">=</span> <span class="n">response_counts</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">response_order</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># Plot the bar graph</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+    <span class="n">response_counts</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;purple&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Add titles and labels</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Responses to the Importance of Open Source ML/AI Frameworks&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Response&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Number of Respondents&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Annotate the bars</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">response_counts</span><span class="p">):</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">count</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">count</span><span class="p">),</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+    <span class="c1"># Show the plot</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Column &#39;</span><span class="si">{</span><span class="n">question_column</span><span class="si">}</span><span class="s2">&#39; not found in the dataset.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>---------------------------------------------------------------------------
+
+NameError                                 Traceback (most recent call last)
+
+&lt;ipython-input-2-004fd5385b31&gt; in &lt;cell line: 5&gt;()
+      3 
+      4 # Check if the column exists in the dataset
+----&gt; 5 if question_column in data.columns:
+      6     # Count occurrences of each response
+      7     response_counts = data[question_column].value_counts()
+
+
+NameError: name &#39;data&#39; is not defined
+</pre></div>
+</div>
+</section>
+<section id="question-12">
+<h1>Question #12<a class="headerlink" href="#question-12" title="Link to this heading">¶</a></h1>
+<hr class="docutils" />
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<span class="c1"># Extract responses to the question</span>
+<span class="n">question_column</span> <span class="o">=</span> <span class="s2">&quot;Is there additional information you want to pass to an estimator that is not X and Y?&quot;</span>
+<span class="k">if</span> <span class="n">question_column</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="n">response_counts</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">question_column</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+
+    <span class="c1"># Plot the bar graph</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+    <span class="n">response_counts</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;teal&#39;</span><span class="p">,</span> <span class="s1">&#39;orange&#39;</span><span class="p">],</span> <span class="p">)</span>
+
+    <span class="c1"># Add titles and labels</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Responses to Additional Information for Estimator (X and Y)&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Response&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Count&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+
+    <span class="c1"># Annotate bars</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">response_counts</span><span class="p">):</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">count</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">count</span><span class="p">),</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+    <span class="c1"># Show the plot</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Column &#39;</span><span class="si">{</span><span class="n">question_column</span><span class="si">}</span><span class="s2">&#39; not found in the dataset.&quot;</span><span class="p">)</span>
+
+
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;ipython-input-2-4e9caf66db91&gt;:20: UserWarning: Glyph 21542 (\N{CJK UNIFIED IDEOGRAPH-5426}) missing from current font.
+  plt.tight_layout()
+&lt;ipython-input-2-4e9caf66db91&gt;:20: UserWarning: Glyph 26159 (\N{CJK UNIFIED IDEOGRAPH-662F}) missing from current font.
+  plt.tight_layout()
+/usr/local/lib/python3.10/dist-packages/IPython/core/pylabtools.py:151: UserWarning: Glyph 21542 (\N{CJK UNIFIED IDEOGRAPH-5426}) missing from current font.
+  fig.canvas.print_figure(bytes_io, **kw)
+/usr/local/lib/python3.10/dist-packages/IPython/core/pylabtools.py:151: UserWarning: Glyph 26159 (\N{CJK UNIFIED IDEOGRAPH-662F}) missing from current font.
+  fig.canvas.print_figure(bytes_io, **kw)
+</pre></div>
+</div>
+<p><img alt="png" src="_images/scikit-learn-analysis_26_1.png" /></p>
+</section>
+<section id="question-15">
+<h1>Question #15<a class="headerlink" href="#question-15" title="Link to this heading">¶</a></h1>
+<hr class="docutils" />
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+
+<span class="c1">#print(df.head())</span>
+
+
+<span class="c1"># Identify the columns related to the question about priorities for Deployment</span>
+<span class="n">deployment_columns</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span>
+    <span class="k">if</span> <span class="s2">&quot;Considering your current machine learning projects, how critical would GPU capabilities within scikit-learn be?&quot;</span> <span class="ow">in</span> <span class="n">col</span>
+<span class="p">]</span>
+
+<span class="c1"># print(&quot;Identified columns for Deployment:\n&quot;,deploy_columns)</span>
+
+<span class="c1"># Filter relevant data</span>
+<span class="n">deploy_data</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">deployment_columns</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+
+<span class="c1"># Rename columns</span>
+<span class="n">renamed_deploy_columns</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;&quot;</span>
+<span class="p">]</span>
+<span class="n">deploy_data</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">renamed_deploy_columns</span>
+
+<span class="c1"># Stacked bar chart</span>
+<span class="c1"># Reindex with available priority levels (1 to 5)</span>
+<span class="n">priority_levels</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+
+<span class="c1"># Prepare data for the stacked bar chart</span>
+<span class="n">stacked_bar_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="n">category</span><span class="p">:</span> <span class="n">deploy_data</span><span class="p">[</span><span class="n">category</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">priority_levels</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">category</span> <span class="ow">in</span> <span class="n">deploy_data</span><span class="o">.</span><span class="n">columns</span>
+<span class="p">})</span><span class="o">.</span><span class="n">T</span>
+
+<span class="c1"># Print to verify processed data</span>
+<span class="c1">#print(&quot;\nPrepared data for the stacked bar chart:&quot;)</span>
+<span class="c1">#print(stacked_bar_data)</span>
+
+<span class="c1"># Create the stacked bar chart</span>
+<span class="n">stacked_bar_data</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;bar&quot;</span><span class="p">,</span> <span class="n">stacked</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">colormap</span><span class="o">=</span><span class="s2">&quot;viridis&quot;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;none&quot;</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Deployment: Priority Levels&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Number of Responses&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Priority Level&quot;</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.05</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper left&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><img alt="png" src="_images/scikit-learn-analysis_28_0.png" /></p>
+</section>
+<section id="question-16">
+<h1>Question #16<a class="headerlink" href="#question-16" title="Link to this heading">¶</a></h1>
+<hr class="docutils" />
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+
+<span class="c1"># Define the relevant question</span>
+<span class="n">question_column</span> <span class="o">=</span> <span class="s2">&quot;For model registry and experiment tracking, do you use any of the following tools? Select all that apply.&quot;</span>
+
+<span class="c1"># Check if the column exists in the dataset</span>
+<span class="k">if</span> <span class="n">question_column</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="c1"># Count occurrences of each response</span>
+    <span class="n">response_counts</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">question_column</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+
+    <span class="c1"># Sort responses in the desired order</span>
+    <span class="n">response_order</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;DVC&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Neptune&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;MlFlow&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Weight and biases&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Custom tool&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Other&quot;</span>
+    <span class="p">]</span>
+    <span class="n">response_counts</span> <span class="o">=</span> <span class="n">response_counts</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">response_order</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># Plot the bar graph</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+    <span class="n">response_counts</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Add titles and labels</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Responses to the Importance of Open Source ML/AI Frameworks&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Response&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Number of Respondents&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Annotate the bars</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">response_counts</span><span class="p">):</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">count</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">count</span><span class="p">),</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+    <span class="c1"># Show the plot</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Column &#39;</span><span class="si">{</span><span class="n">question_column</span><span class="si">}</span><span class="s2">&#39; not found in the dataset.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><img alt="png" src="_images/scikit-learn-analysis_30_0.png" /></p>
+</section>
+<section id="question-17">
+<h1>Question #17<a class="headerlink" href="#question-17" title="Link to this heading">¶</a></h1>
+<hr class="docutils" />
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+
+<span class="c1"># Define the relevant question</span>
+<span class="n">question_column</span> <span class="o">=</span> <span class="s2">&quot;For scheduling, do you use any of the following tools? Select all that apply.&quot;</span>
+
+<span class="c1"># Check if the column exists in the dataset</span>
+<span class="k">if</span> <span class="n">question_column</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="c1"># Count occurrences of each response</span>
+    <span class="n">response_counts</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">question_column</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+
+    <span class="c1"># Sort responses in the desired order</span>
+    <span class="n">response_order</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;Airflow&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Argo&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Coiled&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Dagster&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Kubeflow&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Metaflow (outerbounds)&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Custom tool&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Other&quot;</span>
+    <span class="p">]</span>
+    <span class="n">response_counts</span> <span class="o">=</span> <span class="n">response_counts</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">response_order</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># Plot the pie chart</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">15</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">pie</span><span class="p">(</span><span class="n">response_counts</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">response_counts</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">autopct</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%1.1f%%</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">startangle</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">Paired</span><span class="o">.</span><span class="n">colors</span><span class="p">)</span>
+
+    <span class="c1"># Add title</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Responses to the Importance of Open Source ML/AI Features&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Show the plot</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>  <span class="c1"># Equal aspect ratio ensures that pie chart is drawn as a circle.</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Column &#39;</span><span class="si">{</span><span class="n">question_column</span><span class="si">}</span><span class="s2">&#39; not found in the dataset.&quot;</span><span class="p">)</span>
+
+</pre></div>
+</div>
+<p><img alt="png" src="_images/scikit-learn-analysis_32_0.png" /></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+
+<span class="c1"># Define the relevant question</span>
+<span class="n">question_column</span> <span class="o">=</span> <span class="s2">&quot;For scheduling, do you use any of the following tools? Select all that apply.&quot;</span>
+
+<span class="c1"># Check if the column exists in the dataset</span>
+<span class="k">if</span> <span class="n">question_column</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="c1"># Count occurrences of each response</span>
+    <span class="n">response_counts</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">question_column</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+
+    <span class="c1"># Sort responses in the desired order</span>
+    <span class="n">response_order</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;Airflow&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Argo&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Coiled&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Dagster&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Kubeflow&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Metaflow (outerbounds)&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Custom tool&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Other&quot;</span>
+    <span class="p">]</span>
+    <span class="n">response_counts</span> <span class="o">=</span> <span class="n">response_counts</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">response_order</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># Plot the bar graph</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+    <span class="n">response_counts</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Add titles and labels</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Responses to the Importance of Open Source ML/AI Frameworks&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Response&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Number of Respondents&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Annotate the bars</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">response_counts</span><span class="p">):</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">count</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">count</span><span class="p">),</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+    <span class="c1"># Show the plot</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Column &#39;</span><span class="si">{</span><span class="n">question_column</span><span class="si">}</span><span class="s2">&#39; not found in the dataset.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><img alt="png" src="_images/scikit-learn-analysis_33_0.png" /></p>
+</section>
+<section id="question-18">
+<h1>Question #18<a class="headerlink" href="#question-18" title="Link to this heading">¶</a></h1>
+<hr class="docutils" />
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+
+<span class="c1"># Define the relevant question</span>
+<span class="n">question_column</span> <span class="o">=</span> <span class="s2">&quot;How long does a typical model training take in your ML projects?&quot;</span>
+
+<span class="c1"># Check if the column exists in the dataset</span>
+<span class="k">if</span> <span class="n">question_column</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="c1"># Count occurrences of each response</span>
+    <span class="n">response_counts</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">question_column</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+
+    <span class="c1"># Sort responses in the desired order</span>
+    <span class="n">response_order</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;less than 10 seconds&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;less than a minute&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;less than 10 minutes&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;less than an hour&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;less than a day&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;more than a day&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+    <span class="n">response_counts</span> <span class="o">=</span> <span class="n">response_counts</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">response_order</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># Plot the bar graph</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+    <span class="n">response_counts</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Add titles and labels</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Responses to the Importance of Open Source ML/AI Frameworks&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Response&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Number of Respondents&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Annotate the bars</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">response_counts</span><span class="p">):</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">count</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">count</span><span class="p">),</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+    <span class="c1"># Show the plot</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Column &#39;</span><span class="si">{</span><span class="n">question_column</span><span class="si">}</span><span class="s2">&#39; not found in the dataset.&quot;</span><span class="p">)</span>
+
+</pre></div>
+</div>
+<p><img alt="png" src="_images/scikit-learn-analysis_35_0.png" /></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<span class="c1"># Define the relevant question</span>
+<span class="n">question_column</span> <span class="o">=</span> <span class="s2">&quot;How long does a typical model training take in your ML projects?&quot;</span>
+
+<span class="c1"># Check if the column exists in the dataset</span>
+<span class="k">if</span> <span class="n">question_column</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="c1"># Count occurrences of each response</span>
+    <span class="n">response_counts</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">question_column</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+
+    <span class="c1"># Sort responses in the desired order</span>
+    <span class="n">response_order</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;less than 10 seconds&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;less than a minute&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;less than 10 minutes&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;less than an hour&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;less than a day&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;more than a day&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+    <span class="n">response_counts</span> <span class="o">=</span> <span class="n">response_counts</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">response_order</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># Plot the pie chart</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">15</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">pie</span><span class="p">(</span><span class="n">response_counts</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">response_counts</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">autopct</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%1.1f%%</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">startangle</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">Paired</span><span class="o">.</span><span class="n">colors</span><span class="p">)</span>
+
+    <span class="c1"># Add title</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Responses to the Importance of Open Source ML/AI Features&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Show the plot</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>  <span class="c1"># Equal aspect ratio ensures that pie chart is drawn as a circle.</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Column &#39;</span><span class="si">{</span><span class="n">question_column</span><span class="si">}</span><span class="s2">&#39; not found in the dataset.&quot;</span><span class="p">)</span>
+
+</pre></div>
+</div>
+<p><img alt="png" src="_images/scikit-learn-analysis_36_0.png" /></p>
+</section>
+<section id="question-19">
+<h1>Question #19<a class="headerlink" href="#question-19" title="Link to this heading">¶</a></h1>
+<hr class="docutils" />
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+
+<span class="c1">#print(df.head())</span>
+
+<span class="c1"># Identify the columns related to the question about priorities for Deployed Models</span>
+<span class="n">deployed_models_columns</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span>
+    <span class="k">if</span> <span class="s2">&quot;How many deployed models are you (and your team) currently maintaining?&quot;</span> <span class="ow">in</span> <span class="n">col</span>
+<span class="p">]</span>
+
+<span class="c1"># print(&quot;Identified columns for Deployed Models:\n&quot;,deploy_columns)</span>
+
+<span class="c1"># Filter relevant data</span>
+<span class="n">deployed_data</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">deployed_models_columns</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+
+<span class="c1"># Rename columns</span>
+<span class="n">renamed_deployed_columns</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;&quot;</span>
+<span class="p">]</span>
+<span class="n">deployed_data</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">renamed_deployed_columns</span>
+
+<span class="c1"># Stacked bar chart</span>
+<span class="c1"># Reindex with available priority levels (1 to 5 and more than 5)</span>
+<span class="n">priority_levels</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">)]</span>  <span class="c1"># [1, 2, 3, 4, 5, &gt;5]</span>
+
+
+<span class="c1"># Prepare data for the stacked bar chart</span>
+<span class="n">stacked_bar_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="n">category</span><span class="p">:</span> <span class="n">deployed_data</span><span class="p">[</span><span class="n">category</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">priority_levels</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">category</span> <span class="ow">in</span> <span class="n">deployed_data</span><span class="o">.</span><span class="n">columns</span>
+<span class="p">})</span><span class="o">.</span><span class="n">T</span>
+
+<span class="c1"># Print to verify processed data</span>
+<span class="c1">#print(&quot;\nPrepared data for the stacked bar chart:&quot;)</span>
+<span class="c1">#print(stacked_bar_data)</span>
+
+<span class="c1"># Create the stacked bar chart</span>
+<span class="n">stacked_bar_data</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;bar&quot;</span><span class="p">,</span> <span class="n">stacked</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">colormap</span><span class="o">=</span><span class="s2">&quot;viridis&quot;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;none&quot;</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Deployment: Priority Levels&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Number of Responses&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Priority Level&quot;</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.05</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper left&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><img alt="png" src="_images/scikit-learn-analysis_38_0.png" /></p>
+</section>
+<section id="question-20">
+<h1>Question #20<a class="headerlink" href="#question-20" title="Link to this heading">¶</a></h1>
+<hr class="docutils" />
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<span class="c1"># Define the relevant question</span>
+<span class="n">question_column</span> <span class="o">=</span> <span class="s2">&quot;To what extent do you agree with the following statement?</span><span class="se">\n</span><span class="s2">Open source ML &amp; AI frameworks and libraries are crucial for ensuring transparency and the reproducibility of AI research and development.&quot;</span>
+
+<span class="c1"># Check if the column exists in the dataset</span>
+<span class="k">if</span> <span class="n">question_column</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="c1"># Count occurrences of each response</span>
+    <span class="n">response_counts</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">question_column</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+
+    <span class="c1"># Sort responses in the desired order</span>
+    <span class="n">response_order</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;Strongly agree&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Agree&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Neither agree nor disagree&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Disagree&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Strongly disagree&quot;</span>
+    <span class="p">]</span>
+    <span class="n">response_counts</span> <span class="o">=</span> <span class="n">response_counts</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">response_order</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># Plot the bar graph</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+    <span class="n">response_counts</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Add titles and labels</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Responses to the Importance of Open Source ML/AI Frameworks&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Response&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Number of Respondents&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Annotate the bars</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">response_counts</span><span class="p">):</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">count</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">count</span><span class="p">),</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+    <span class="c1"># Show the plot</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Column &#39;</span><span class="si">{</span><span class="n">question_column</span><span class="si">}</span><span class="s2">&#39; not found in the dataset.&quot;</span><span class="p">)</span>
+
+</pre></div>
+</div>
+<p><img alt="png" src="_images/scikit-learn-analysis_40_0.png" /></p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">scikit-learn-survey</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2024, Inessa Pawson.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.1.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="_sources/scikit-learn-analysis.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
